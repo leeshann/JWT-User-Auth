@@ -95,7 +95,7 @@ app.post('/user/logout', async (req, res) => {
     const { email } = req.body
 
     // 1. Clear session cookie
-    res.clearCookie('refreshToken')
+    res.clearCookie('refreshToken', {path: '/refresh_token'})
     
     // 2. Removing refresh_token from DB
     try {
@@ -110,7 +110,7 @@ app.post('/user/logout', async (req, res) => {
             [id]
         )
     
-        res.status(200).send("Logged out")
+        res.status(200).json({success: true, accessToken: ""})
     } catch (error) {
         console.error(error.message)
         res.status(500).send()   
